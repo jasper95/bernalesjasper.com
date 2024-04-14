@@ -9,6 +9,6 @@ linkedin: https://www.linkedin.com/in/jasper-bernales-bb3742149
 github: https://github.com/jasper95
 ---
 
-I am a freelance software engineer. My interests includes web development, music, and web3.
+I am a freelance software engineer with interests in web development, music, and web3.
 
-Im a fulltime freelancer working on various projects. I don't disclose where I work but you will get hints if you follow me in twitter or linkedin. This is mostly because I don't want to violate NDA if I discuss anything work related.
+As a full-time freelancer, I work on various projects. I prefer not to disclose the names of the companies I work with, but you can get hints if you follow me on Twitter or LinkedIn. This approach helps ensure that I do not inadvertently violate any non-disclosure agreements when discussing work-related topics.
