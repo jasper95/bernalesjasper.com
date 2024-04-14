@@ -1,16 +1,14 @@
 ---
-name: Tails Azimuth
+name: Jasper Bernales
 avatar: /static/images/avatar.png
-occupation: Professor of Atmospheric Science
-company: Stanford University
-email: address@yoursite.com
-twitter: https://twitter.com/Twitter
-linkedin: https://www.linkedin.com
-github: https://github.com
+occupation: Software Engineer
+company: Freelance
+email: bernalesjasper@gmail.com
+twitter: https://twitter.com/bernales95
+linkedin: https://www.linkedin.com/in/jasper-bernales-bb3742149
+github: https://github.com/jasper95
 ---
 
-Tails Azimuth is a professor of atmospheric sciences at the Stanford AI Lab. His research interests includes complexity modelling of tailwinds, headwinds and crosswinds.
+I am a freelance software engineer. My interests includes web development, music, and web3.
 
-He leads the clean energy group which develops 3D air pollution-climate models, writes differential equation solvers, and manufactures titanium plated air ballons. In his free time he bakes raspberry pi.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+Im a fulltime freelancer working on various projects. I don't disclose where I work but you will get hints if you follow me in twitter or linkedin. This is mostly because I don't want to violate NDA if I discuss anything work related.

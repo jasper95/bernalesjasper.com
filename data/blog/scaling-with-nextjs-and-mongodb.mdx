@@ -1,0 +1,45 @@
+---
+title: Scaling with NextJS and MongoDB Atlas
+date: '2024-04-14'
+tags: ['nextjs', 'mongodb', 'aws']
+draft: false
+summary: 'How we scale our marketplace website running in NextJS and MongoDB'
+---
+
+# Introduction
+
+I'm working on a marketplace project where we recently implemented a feature that imports listings from external sources. In this blog, I will discuss how we scaled our backend services to support a volume increase from a couple of thousand to hundreds of thousands of listings.
+
+Our stack primarily runs on MongoDB, NextJS, NodeJS backend, and is deployed in AWS.
+
+## Problematic Areas Addressed
+
+Here are a few problematic parts that we needed to address:
+
+1. NextJS page revalidation and image optimization
+2. Event listeners
+3. Full Text Search
+
+### NextJS
+
+Our NextJS website is hosted on AWS. It has undergone several changes in the deployment model to scale. Initially, we implemented it with auto revalidation using incremental static regeneration ([Incremental Static Regeneration](https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration)). Eventually, we moved to on-demand revalidation.
+
+We first used the AWS Amplify deployment model. It had its own problems, mainly that we couldn't increase the horsepower the Next server could handle. The problems finally plateaued when Google started indexing our listing detail pages, forcing concurrent revalidations and causing outages.
+
+We then moved it to a dockerized model (mounted with EFS), which worked for us for quite some time. We were able to increase the horsepower of the NextJS server. At some point, we removed NextJS auto revalidation by using on-demand revalidation, but it wasn't enough. We were still having problems with the NextJS server being overloaded due to next/image requests and revalidation requests. We needed to handle these revalidations in a queue and outsource the image optimization outside the NextJS server.
+
+Fortunately, the OpenNext ([OpenNext](https://open-next.js.org/)) NextJS model exists. It simplified a lot of our needs to scale and it's open source! The architecture can be found here: [OpenNext Architecture](https://open-next.js.org/inner_workings/architecture). If this didn't exist, we would implement a revalidation queue ourselves and deploy an external image optimization service.
+
+### Event Listeners
+
+We had built a service that watches for changes in MongoDB and sends these change events to AWS EventBridge to power our event-driven services. These events are handled in a Lambda based on EventBridge rules. This eventually hit some problems when we bulk-imported a huge amount of data.
+
+What easily worked for us is using MongoDB Atlas Triggers. Atlas Triggers allow us to create a function to handle a database change. The pricing is based on compute time and data egress/GB. Its pricing is reasonable for us at the moment compared to running our own event listener server that scales.
+
+### Full Text Search
+
+Listing search is one of our most important features and easily becomes problematic when scaling if it's not done right. Scaling search became very easy when done with MongoDB Atlas Search ([MongoDB Atlas Search](https://www.mongodb.com/atlas/search)). This eliminates the need to run a search engine like Elasticsearch and set up additional infrastructure to sync your data from your database to the search engine. We also removed `$lookup` (join in SQL) from our MongoDB aggregation pipeline and created a data redundancy service handled by our EventBridge + Lambda architecture.
+
+## Conclusion
+
+Overall, we are very happy that we use MongoDB and NextJS in our stack. Personally, I used to bet on PostgreSQL as my go-to database, but now I think MongoDB in Atlas is something I would bet on again if I wanted to start a new architecture that scales easily.
